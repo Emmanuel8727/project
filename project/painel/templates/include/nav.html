@@ -1,0 +1,77 @@
+{% load auth_extras %}
+
+<style>
+    nav { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 14px 18px; color: #172b4d; background: #fff; border: 1px solid #e5ebf2; border-radius: 18px; box-shadow: 0 10px 30px rgba(25,48,76,.08); font-family: Inter, "Segoe UI", sans-serif; }
+    nav > a, nav .menu-section a { display: inline-flex; padding: 9px 12px; color: #087f8c; text-decoration: none; font-weight: 650; border-radius: 10px; }
+    nav a:hover { color: #fff; background: #087f8c; }
+    nav .menu-section { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; padding-left: 12px; border-left: 1px solid #e5ebf2; }
+    nav h3 { margin: 0 4px; color: #62718a; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; }
+    @media (max-width: 650px) { nav .menu-section { padding: 8px 0 0; border-left: 0; border-top: 1px solid #e5ebf2; } }
+</style>
+<nav>
+    <!-- Menu Principal Comum a Todos -->
+    <a href="{% url 'painel_redirect' %}">Início</a>
+    <a href="#">Meu Perfil</a>
+
+    <!-- Menu Exclusivo da Diretoria -->
+    {% if request.user|has_group:"diretoria" %}
+    <div class="menu-section">
+        <h3>Menu da Diretoria</h3>
+        <a href="{% url 'view_diretoria' %}">Painel Diretoria</a>
+        <a href="#">Balanço Anual</a>
+    </div>
+    {% endif %}
+
+    <!-- Menu Exclusivo da Gerência Geral -->
+    {% if request.user|has_group:"gerencia_geral" %}
+    <div class="menu-section">
+        <h3>Menu da  Gerência Geral</h3>
+        <a href="{% url 'view_gerencia_geral' %}">Painel Gerência Geral</a>
+    </div>
+    {% endif %}
+
+    <!-- Menu Exclusivo da Gerência -->
+    {% if request.user|has_group:"gerencia" %}
+    <div class="menu-section">
+        <h3>Menu da Gerência</h3>
+        <a href="{% url 'view_gerencia' %}">Painel Gerência</a>
+    </div>
+    {% endif %}
+
+    <!-- Menu Exclusivo da supervisao -->
+    {% if request.user|has_group:"supervisao" %}
+    <div class="menu-section">
+        <h3>Menu da Supervisão</h3>
+        <a href="{% url 'view_supervisao' %}">Painel Supervisão</a>
+    </div>
+    {% endif %}
+
+    <!-- Menu Exclusivo do Atendente  -->
+    {% if request.user|has_group:"atendente" %}
+    <div class="menu-section">
+        <h3>Menu do Atendente</h3>
+        <a href="{% url 'view_atendente' %}">Painel Atendente</a>
+    </div>
+    {% endif %}
+
+    <!-- Menu Exclusivo do caixa  -->
+    {% if request.user|has_group:"caixa" %}
+    <div class="menu-section">
+        <h3>Menu do Caixa</h3>
+        <a href="{% url 'view_caixa' %}">Painel Caixa</a>
+    </div>
+    {% endif %}
+    <!-- Menu Exclusivo do cliente  -->
+    {% if request.user|has_group:"caixa" %}
+    <div class="menu-section">
+        <h3>Menu do Cliente</h3>
+        <a href="{% url 'view_checkout' %}">Carrinho</a>
+    </div>
+    {% endif %}
+    <!-- Menu Compartilhado (Visível para Atendentes E Caixas) -->
+    {% if request.user|has_group:"atendente" or request.user|has_group:"caixa" %}
+    <div class="menu-section">
+        <a href="#">Abrir Chamado</a>
+    </div>
+    {% endif %}
+</nav>

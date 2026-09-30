@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <!-- Importando o CSS do Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --ink: #172b4d; --accent: #087f8c; --surface: rgba(255,255,255,.92); }
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; padding: clamp(18px, 4vw, 56px); color: var(--ink); font-family: Inter, "Segoe UI", sans-serif; background: radial-gradient(circle at 12% 10%, #d7f0ec 0, transparent 32%), linear-gradient(135deg, #f4f7fb, #eaf0f7); }
+        h1, h2, h3 { letter-spacing: -.035em; }
+        .card, header, main, article, body > form, body > table { background: var(--surface); border: 1px solid rgba(23,43,77,.08); border-radius: 22px; box-shadow: 0 18px 48px rgba(25,48,76,.10); }
+        nav { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+        a { color: var(--accent); }
+        button, .btn { border-radius: 12px; font-weight: 650; }
+        input:not([type=hidden]) { border-radius: 10px; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; }
+        th { background: #172b4d; color: #fff; }
+        th, td { padding: 13px 16px; border-bottom: 1px solid #e8edf3; }
+        @media (max-width: 600px) { body { padding: 16px; } }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Container flexível: Usei min-vh-100 para garantir que caiba em telas menores sem cortar -->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100 py-5">
+        
+        <div class="card shadow-lg p-4 p-md-5" style="width: 100%; max-width: 500px; border-radius: 15px;">
+            <h2 class="mb-4 text-center fw-bold text-primary">Criar Conta</h2>
+
+            <!-- Bloco de Mensagens transformado em Alertas do Bootstrap -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" action="{% url 'cadastro' %}">
+                {% csrf_token %}
+                
+                <!-- Campo: Usuário -->
+                <div class="mb-3">
+                    <label for="id_usuario" class="form-label text-muted fw-semibold">Usuário:</label>
+                    <input type="text" name="usuario" id="id_usuario" class="form-control" placeholder="Digite seu usuário" required>
+                </div>
+
+                <!-- Campo: E-mail -->
+                <div class="mb-3">
+                    <label for="id_email" class="form-label text-muted fw-semibold">E-mail:</label>
+                    <input type="email" name="email" id="id_email" class="form-control" placeholder="Digite seu e-mail" required>
+                </div>
+
+                <!-- Campo: Senha -->
+                <div class="mb-3">
+                    <label for="id_senha" class="form-label text-muted fw-semibold">Senha:</label>
+                    <input type="password" name="senha" id="id_senha" class="form-control" placeholder="Crie uma senha" required>
+                </div>
+
+                <!-- Campo: Confirmar Senha -->
+                <div class="mb-4">
+                    <label for="id_confirmar_senha" class="form-label text-muted fw-semibold">Confirmar Senha:</label>
+                    <input type="password" name="confirmar_senha" id="id_confirmar_senha" class="form-control" placeholder="Repita a senha" required>
+                </div>
+
+                <!-- Botão de Submit -->
+                <button type="submit" class="btn btn-success btn-lg w-100">Cadastrar</button>
+            </form>
+
+            <!-- Link de Login no rodapé do card -->
+            <div class="mt-4 text-center">
+                <p class="mb-0 text-muted">Já possui conta? <a href="{% url 'login' %}" class="fw-bold text-decoration-none">Entrar</a></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Importando o JS do Bootstrap 5 (Necessário para fechar os alertas das mensagens) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
